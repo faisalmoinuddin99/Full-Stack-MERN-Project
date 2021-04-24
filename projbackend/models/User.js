@@ -23,10 +23,10 @@ const userSchema = new Schema({
     type: String,
     trim: true,
   },
-  //TODO: comeback here
-  password: {
+
+  encry_password: {
     type: String,
-    trime: true,
+
     required: true,
   },
   salt: String,
@@ -39,5 +39,19 @@ const userSchema = new Schema({
     default: [],
   },
 });
+
+userSchema.methods = {
+  securePassword: function (plainpassword) {
+    if (!plainpassword) return "";
+    try {
+      return crypto
+        .createHmac("sha256", this.salt)
+        .update(plainpassword)
+        .digest("hex");
+    } catch (err) {
+      return "";
+    }
+  },
+};
 
 module.exports = mongoose.model("User", userSchema);
