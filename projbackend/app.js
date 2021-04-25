@@ -1,9 +1,11 @@
+require("dotenv").config();
+
 const mongoose = require("mongoose");
 const express = require("express");
 const app = express();
 
 mongoose
-  .connect("mongodb://localhost:27017/tshirt", {
+  .connect(process.env.DATABASE, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
@@ -11,7 +13,7 @@ mongoose
   .then(() => {
     console.log("DB CONNECTED");
   })
-  .catch((err) => console.log("connection error: " + err));
+  .catch((err) => console.log("Connection error: " + err));
 
 const port = process.env.PORT || 8000;
 
