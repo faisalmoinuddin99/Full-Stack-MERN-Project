@@ -20,7 +20,11 @@ const isAdmin = (req, res, next) => {
   }
   next();
 };
-app.get("/admin", isAdmin, admin);
+const isLoggedIn = (req, res, next) => {
+  console.log("Admin is logged in");
+  next();
+};
+app.get("/admin", isLoggedIn, isAdmin, admin);
 
 //Assignment
 app.get("/hitesh", (req, res) => {
