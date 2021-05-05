@@ -31,6 +31,7 @@ exports.signup = (req, res) => {
 exports.signin = (req, res) => {
   //de-structuring
   const { email, password } = req.body;
+  const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
     return res.status(422).json({
@@ -40,8 +41,8 @@ exports.signin = (req, res) => {
   }
 
   User.findOne({ email }, (err, user) => {
-    if (err) {
-      res.status(400).json({
+    if (err || !user) {
+      return res.status(400).json({
         error: "USER email does not exists",
       });
     }
