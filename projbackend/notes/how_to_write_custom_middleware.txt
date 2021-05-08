@@ -1,0 +1,68 @@
+1. most of the people get confused on this code:
+
+exports.isSignedIn = expressJwt({
+  secret: process.env.SECRET,
+  userProperty: "auth",
+});
+
+and specially what is the purpose of userProperty, why its inside auth ?
+
+2. so lets check whats inside auth
+3. open your postman and first use sign-in route [POST]
+
+```
+http://localhost:8000/api/signin
+
+Add this credientials :
+{
+   "email":"a@faisal.com",
+   "password":"12345"
+}
+```
+4. After this you will get one token, copy that token 
+example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MDhlOGMyM2RhNTFmMzA1OGZhOTUxMzkiLCJpYXQiOjE2MjA0NjYyMzZ9.JAFUnU72XawF6_Ep4EC_GN03Ky5_eXQmy-ZFHklsgAY"
+
+5. open another tab and change into GET route, 
+http://localhost:8000/api/testroute
+
+Now remember before hitting on send button you have to configure somthing
+
+6. Go on Header section inside key type Authorization and paste that 
+token inside value
+
+7. And also remember one thing dont forget to type "Bearer" before 
+pasting token
+
+8. Now hit submit button
+
+9. You will get response as this:
+{
+    "_id": "608e8c23da51f3058fa95139",
+    "iat": 1620464958
+}
+
+10. Now this "auth" is holding "_id" which is the very most important
+thing. 
+
+11. if you notice "_id" closly is exactly same as the id given to us
+while sign-in.
+
+**** Custom Route ****
+
+1. we will create two custom middle ware "isAuthenticated" and "isAdmin"
+
+2. How we get to know wheather the user is authenticated or not
+
+3. first we will create one variable called "checker"
+
+4. this "checker" holds some logic 
+
+5. req.profile which comes from front-end 
+
+6. req.auth -> this is comming from isSignedIn middleware
+
+7. req.profile._id -> _id comming from front-end
+
+8. all these three stuffs should be equal to "req.auth._id"
+
+
