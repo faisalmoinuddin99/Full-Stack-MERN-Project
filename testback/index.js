@@ -35,4 +35,8 @@ app.get("/sign-out", (req, res) => {
   res.json({ message: "sign out successfully" });
 });
 
+app.get("/flight/from/:from/to/:to", (req, res) => {
+  res.json(req.params);
+});
+
 app.listen(port, () => console.log(`Server is running at ${port}...`));
