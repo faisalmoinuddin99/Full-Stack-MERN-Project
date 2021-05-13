@@ -20,13 +20,33 @@ exports.getUser = (req, res) => {
   return res.json(req.profile);
 };
 
+// Assignment
 exports.getAllUsers = (req, res) => {
-  User.find().exec((err, user) => {
-    if (err || !user) {
-      res.status(400).json({
+  User.find().exec((err, users) => {
+    if (err || !users) {
+      return res.status(400).json({
         error: "No user available",
       });
     }
-    return res.json(user);
+    res.json(users);
   });
+};
+
+exports.updateUser = (req, res) => {
+  User.findByIdAndUpdate(
+    { _id: req.profile._id },
+    { $set: req.body },
+    { new: true, useFindAndModify: false },
+    (err, user) => {
+      if (err || !user) {
+        return res.status(400).json({
+          error: "You are not authorized to update this user",
+        });
+      }
+      user.salt = undefined;
+      user.encry_password = undefined;
+
+      res.json(user);
+    }
+  );
 };
