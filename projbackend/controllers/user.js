@@ -19,3 +19,14 @@ exports.getUser = (req, res) => {
   req.profile.updatedAt = undefined;
   return res.json(req.profile);
 };
+
+exports.getAllUsers = (req, res) => {
+  User.find().exec((err, user) => {
+    if (err || !user) {
+      res.status(400).json({
+        error: "No user available",
+      });
+    }
+    return res.json(user);
+  });
+};
